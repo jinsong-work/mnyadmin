@@ -1,0 +1,25 @@
+{
+    "name": "jinsong-work/mnyadmin",
+    "description": "ddddd",
+    "type": "project",
+    "require": {
+        "yzncms/think-installer": "*"
+    },
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "JinsongWork\\Mnyadmin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mnykj"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "yzncms/think-installer": true
+        }
+    }
+}
