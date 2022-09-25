@@ -18,7 +18,7 @@
             "name": "mnykj"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
             "yzncms/think-installer": true
