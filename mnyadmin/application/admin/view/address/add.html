@@ -1,0 +1,78 @@
+{extend name="index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">上级菜单</label>
+        <div class="layui-input-block">
+            <select name="parentid" lay-verify="required">
+                <option value="0">作为一级城市</option>
+                {$select_categorys|raw}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称 </label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序 </label>
+        <div class="layui-input-block">
+            <input type="number" value="0" name="listorder" lay-verify="required" autocomplete="off" placeholder="从大到小" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="显示" checked>
+            <input type="radio" name="status" value="0" title="隐藏">
+        </div>
+    </div>
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" data-refresh="false">立即提交</button>
+            <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use(['iconPicker', 'form', 'layer','yznForm'], function() {
+    var iconPicker = layui.iconPicker,
+        form = layui.form,
+        layer = layui.layer,
+        $ = layui.$,
+        yznForm = layui.yznForm;
+        yznForm.listen();
+        iconPicker.render({
+            elem: '#iconPicker4',
+            type: 'fontClass'
+        });
+
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker',
+            // 数据类型：fontClass/unicode，推荐使用fontClass
+            type: 'fontClass',
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function(d) {
+                //console.log(d);
+            }
+        });
+});
+</script>
+{/block}

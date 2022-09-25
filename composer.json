@@ -8,7 +8,9 @@
     "license": "mit",
     "autoload": {
         "psr-4": {
-            "JinsongWork\\Mnyadmin\\": "src/"
+            "JinsongWork\\Mnyadmin\\": "src/",
+            "core\\": "core",
+            "core2\\": "core2"
         }
     },
     "authors": [

@@ -1,0 +1,181 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<style>
+    .courselist dd:first-child {
+        display: inline-block;
+        margin: 5px 0;
+    }
+    .courselist dd ins {
+        width: 160px;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        line-height: 38px;
+    }
+
+    /*.course dd input:first-child {*/
+    /*width: 110px;*/
+    /*}*/
+
+    .courselist dd input {
+        display: inline-block;
+        /*width: 300px;*/
+    }
+
+    .layui-laydate-content>.layui-laydate-list {
+        padding-bottom: 0px;
+        overflow: hidden;
+    }
+    .layui-laydate-content>.layui-laydate-list>li{
+        width:50%;
+    }
+    .laydate-time-list ol li{
+        padding-left:54px;
+    }
+</style>
+
+<form class="layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">配送点名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="配送点名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择省市区</label>
+        <div class="layui-input-inline">
+            <select name="province_id" lay-filter="select_city">
+                <option value="" >请选择省</option>
+                {volist name="province" id="vo"}
+                <option value="{$vo['id']}">{$vo['name']}</option>
+                {/volist}
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="city_id" id="city_id" lay-filter="select_area">
+                <option value="">请选择市</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="area_id" id="area_id">
+                <option value="">请选择县/区</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-block">
+            <textarea name="address" placeholder="详细地址" class="layui-textarea"></textarea>
+            <div class="layui-form-mid layui-word-aux">省、市、区不用带，填写省市区后面的地址即可，app展示会进行拼接。</div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label layui-form-item-required">配送时间</label>
+        <dl class="layui-input-block fieldlist" data-name="delivery_time" data-id="item" data-template="true">
+            <dd>
+                <ins>开始 - 结束</ins>
+            </dd>
+            <dd><button type="button" class="layui-btn btn-append">追加</button></dd>
+            <textarea name="delivery_time" id="delivery_time"  class="layui-textarea layui-hide">["00:00 - 00:00","00:00 - 00:00"]</textarea>
+        </dl>
+        <div class="layui-form-mid2 layui-word-aux">点击添加，可拖拽排序，从上到下。</div>
+    </div>
+    <script type="text/html" id="itemTpl">
+        <dd class="layui-form-item rules-item">
+            {{# layui.each(d.lists, function(index, item) { }}
+            <div class="layui-input-inline">
+                <input  data-date-type="hm"  type="text" name="{{item.name}}[{{item.index}}]" class="layui-input datetime" value="00:00 - 00:00">
+            </div>
+
+            <!--<div class="layui-input-inline">-->
+            <!--<input  type="text" name="{{item.name}}[{{item.index}}][title]" class="layui-input" value="">-->
+            <!--</div>-->
+
+            <button type="button" class="layui-btn layui-btn-danger btn-remove layui-btn-xs"><i class="iconfont icon-close"></i></button>
+            <button type="button" class="layui-btn btn-dragsort layui-btn-xs"><i class="iconfont icon-yidong"></i></button>
+            {{# }); }}
+        </dd>
+    </script>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="number" value="0" name="listorder" lay-verify="required" autocomplete="off" placeholder="排序" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="启用" checked>
+            <input type="radio" name="status" value="2" title="暂停配送">
+            <input type="radio" name="status" value="0" title="隐藏">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit>立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    layui.use(['yznForm','form'], function() {
+        var yznForm = layui.yznForm,form = layui.form;
+        $(document).on("fa.event.appendfieldlist", ".btn-append", function (e, obj) {
+            yznForm.events.datetimepicker(obj);
+        });
+        yznForm.listen();
+
+        form.on('select(select_city)', function(data) {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "{:url('selectSsq')}",
+                data: {
+                    pid:data.value
+                },
+                success: function (res) {
+                    if(res.code){
+                        $('#city_id').empty();
+                        $('#city_id').append('<option value="" >请选择市</option>');
+                        $.each(res.data, function(i, item) {
+                            $('#city_id').append(new Option(item.name, item.id));
+                        });
+                        form.render("select");//重新渲染 固定写法
+                    }
+                }
+            });
+        });
+
+        form.on('select(select_area)', function(data) {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "{:url('selectSsq')}",
+                data: {
+                    pid:data.value
+                },
+                success: function (res) {
+                    if(res.code){
+                        $('#area_id').empty();
+                        $('#area_id').append('<option value="" >请选择县/区</option>');
+                        $.each(res.data, function(i, item) {
+                            $('#area_id').append(new Option(item.name, item.id));
+                        });
+                        form.render("select");//重新渲染 固定写法
+                    }
+                }
+            });
+        });
+    });
+</script>
+{/block}

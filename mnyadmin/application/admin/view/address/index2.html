@@ -1,0 +1,69 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">{$menuTitle}</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote">当前全国地址可能收录不全，随着时间推移，有些地区会发生减少或者增加，当添加区域时如果未找到城市，需要手动在此添加对应的地区。</blockquote>
+            <table class="layui-hide" id="currentTable" lay-filter="currentTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barTool">
+    <a data-open="{{d.add_url}}" data-width="900" data-height="600" class="layui-btn layui-btn-xs layui-btn-normal" title="添加子栏目">添加</a>
+    <a data-open='{:url("edit")}?id={{ d.id }}' data-width="900" data-height="600" class="layui-btn layui-btn-xs" title="编辑"><i class='iconfont icon-brush_fill'></i></a>
+    <a href='{:url("del")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del"><i class='iconfont icon-trash_fill'></i></a>
+</script>
+{/block}
+{block name="script"}
+<script>
+    layui.use('yznTable', function() {
+        var yznTable = layui.yznTable;
+
+        var init = {
+            table_elem: '#currentTable',
+            table_render_id: 'currentTable',
+            delete_url: "{:url('del')}",
+            modify_url: '{:url("multi")}',
+        };
+
+        yznTable.render({
+            init: init,
+            toolbar: ['refresh',
+                [{
+                    text: '新增',
+                    url: "{:url('add')}",
+                    method: 'open',
+                    class: 'layui-btn layui-btn-sm layui-btn-normal',
+                    icon: 'iconfont icon-add',
+                    extend: 'data-width="900" data-height="600"',
+                },
+
+                ], 'delete', [
+                    {
+                        text: "更新缓存",
+                        url: "{:url('public_cache')}",
+                        method: 'request',
+                        class: 'layui-btn layui-btn-sm',
+                        icon:'iconfont icon-shuaxin1',
+                        extend: 'data-table="currentTable"',
+                    }]
+            ],
+            url: '{:url("index")}',
+            search:true,
+            escape:false,
+            limit:10,
+            cols: [
+                [
+                    { type: 'checkbox', fixed: 'left' },
+                    { field: 'listorder', width: 70, title: '排序', edit: 'text',search:false },
+                    { field: 'id', width: 70, title: 'ID' },
+                    { field: 'name',align: "left", title: '名称' },
+                    { field: 'status', width: 100, align: "center", title: '状态', unresize: true,search:false,templet: yznTable.formatter.switch },
+                    { fixed: 'right', width: 170, title: '操作', toolbar: '#barTool' }
+                ]
+            ],
+        });
+    });
+</script>
+{/block}

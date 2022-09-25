@@ -1,0 +1,34 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">{$menuTitle}</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <script type="text/plain" class="js-ueditor" id="content" name="modelField[agreement]">{$info['agreement']|default=''|raw}</script>
+                </div>
+                <div class="content_attr editor_tool" style="margin-left: 140px;">
+                    <a class="layui-btn layui-btn-sm" id="contentgrabimg" style="margin-top: 4px;">图片本地化</a>
+                    <a class="layui-btn layui-btn-sm" id="contentfilterword" style="margin-top: 4px;">检测违禁词</a>
+                </div>
+            </div>
+            <div class="layui-form-item layer-footer">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit data-refresh="false">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    layui.use('yznForm', function() {
+        var yznForm = layui.yznForm;
+        yznForm.listen();
+    });
+</script>
+{/block}

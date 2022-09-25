@@ -1,0 +1,76 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">用户配置</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">基本配置</li>
+                    <li>用户注册协议</li>
+                    <li>隐私协议</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新人红包</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="setting[new_hongbao]" value="1" title="发放" {if
+                                       isset($setting['new_hongbao']) && 1 ==
+                                $setting['new_hongbao']}checked{/if}>
+                                <input type="radio" name="setting[new_hongbao]" value="0" title="不发" {if
+                                       isset($setting['new_hongbao']) && 0 ==
+                                $setting['new_hongbao']}checked{/if}>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">注册协议</label>
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content" name="setting[agreement]">{$setting['agreement']|default=''|raw}</script>
+                            </div>
+                            <div class="content_attr editor_tool" style="margin-left: 140px;">
+                                <a class="layui-btn layui-btn-sm" id="contentgrabimg" style="margin-top: 4px;">图片本地化</a>
+                                <a class="layui-btn layui-btn-sm" id="contentfilterword" style="margin-top: 4px;">检测违禁词</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">隐私协议</label>
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content1" name="setting[privacy]">{$setting['privacy']|default=''|raw}</script>
+                            </div>
+                            <div class="content_attr editor_tool" style="margin-left: 140px;">
+                                <a class="layui-btn layui-btn-sm" id="content1grabimg" style="margin-top: 4px;">图片本地化</a>
+                                <a class="layui-btn layui-btn-sm" id="content1filterword" style="margin-top: 4px;">检测违禁词</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item layer-footer">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit data-refresh="false">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.listen();
+});
+</script>
+{/block}

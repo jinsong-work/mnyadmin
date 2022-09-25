@@ -1,0 +1,159 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">{$menuTitle}</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">基本配置</li>
+                    <li>我的客服</li>
+                    <li>关于我们</li>
+                    <li>联系我们</li>
+                    <li>抽奖规则</li>
+                    <li>其他</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">商城开关</label>
+                            <div class="layui-input-inline w300">
+                                <input type="radio" name="setting[web_site_status]" value="1" title="开启" {if 1==$setting['web_site_status']}checked{/if}>
+                                <input type="radio" name="setting[web_site_status]" value="0" title="关闭" {if 0==$setting['web_site_status']}checked{/if}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">站点关闭后APP将不能访问</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">重量单位</label>
+                            <div class="layui-input-inline w300">
+                                <input type="text" name="setting[site_weight_unit]" placeholder="请输入重量单位" class="layui-input" value="{$setting['site_weight_unit']}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">用于app商品的单位展示</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">积分换算</label>
+                            <div class="layui-input-inline w300">
+                                <input type="text" name="setting[point_convert]" placeholder="请输入积分换算" class="layui-input" value="{$setting['point_convert']}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">1元多少积分</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">支付等待时间</label>
+                            <div class="layui-input-inline w300">
+                                <input type="text" name="setting[pay_wait_time]" placeholder="请输入支付等待时间" class="layui-input" value="{$setting['pay_wait_time']}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">单位：分钟</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">URL模式</label>
+                            <div class="layui-input-inline w300">
+                                <input type="radio" name="setting[site_url_mode]" value="1" title="数字" {if isset($setting['site_url_mode']) && 1==$setting['site_url_mode']}checked{/if}>
+                                <input type="radio" name="setting[site_url_mode]" value="2" title="标识" {if isset($setting['site_url_mode']) && 2==$setting['site_url_mode']}checked{/if}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">接口链接模式，不需要动。</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">名称</label>
+                            <div class="layui-input-inline w300">
+                                <input type="text" name="setting[site_name]" placeholder="请输入站点名称" class="layui-input" value="{$setting['site_name']}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">首页背景图</label>
+                            <div class="layui-input-block">
+                                <div class="js-upload-image">
+                                    {:Form::image("setting[index_bg]",isset($setting['index_bg'])?$setting['index_bg']:'')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <!--<label class="layui-form-label">我的客服</label>-->
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content" name="setting[my_kefu]">{$setting['my_kefu']|default=''|raw}</script>
+                            </div>
+                            <!--<div class="content_attr editor_tool" style="margin-left: 140px;">-->
+                                <!--<a class="layui-btn layui-btn-sm" id="contentgrabimg" style="margin-top: 4px;">图片本地化</a>-->
+                                <!--<a class="layui-btn layui-btn-sm" id="contentfilterword" style="margin-top: 4px;">检测违禁词</a>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <!--<label class="layui-form-label">联系我们</label>-->
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content2" name="setting[about]">{$setting['about']|default=''|raw}</script>
+                            </div>
+                            <!--<div class="content_attr editor_tool" style="margin-left: 140px;">-->
+                            <!--<a class="layui-btn layui-btn-sm" id="content1grabimg" style="margin-top: 4px;">图片本地化</a>-->
+                            <!--<a class="layui-btn layui-btn-sm" id="content1filterword" style="margin-top: 4px;">检测违禁词</a>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <!--<label class="layui-form-label">联系我们</label>-->
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content1" name="setting[contact]">{$setting['contact']|default=''|raw}</script>
+                            </div>
+                            <!--<div class="content_attr editor_tool" style="margin-left: 140px;">-->
+                                <!--<a class="layui-btn layui-btn-sm" id="content1grabimg" style="margin-top: 4px;">图片本地化</a>-->
+                                <!--<a class="layui-btn layui-btn-sm" id="content1filterword" style="margin-top: 4px;">检测违禁词</a>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item layui-form-text">
+                            <!--<label class="layui-form-label">联系我们</label>-->
+                            <div class="layui-input-block">
+                                <script type="text/plain" class="js-ueditor" id="content3" name="setting[luckdraw_rule]">{$setting['luckdraw_rule']|default=''|raw}</script>
+                            </div>
+                            <!--<div class="content_attr editor_tool" style="margin-left: 140px;">-->
+                            <!--<a class="layui-btn layui-btn-sm" id="content1grabimg" style="margin-top: 4px;">图片本地化</a>-->
+                            <!--<a class="layui-btn layui-btn-sm" id="content1filterword" style="margin-top: 4px;">检测违禁词</a>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-form-item">
+                            <label  class="layui-form-label">内容违禁词</label>
+                            <div class="layui-input-inline w300">
+                                <div class="layui-form-mid layui-word-aux">违禁词库位于<b class="text-danger">data/words.txt</b>一行一个</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-form-item layer-footer">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit data-refresh="false">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.listen();
+});
+</script>
+{/block}

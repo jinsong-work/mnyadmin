@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title1111222</title>
+    <script src="__STATIC__/libs/jquery/jquery.min.js"></script>
+</head>
+<body>
+
+
+<script>
+    let arr = [1,2];
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: '/index/index/test',
+        data: {
+            arr
+        },
+        success: function (res) {
+            console.log(res);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">{$menuTitle}</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="currentTable" lay-filter="currentTable"></table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+    layui.use(['yznTable'], function() {
+        var yznTable = layui.yznTable;
+
+        var init = {
+            table_elem: '#currentTable',
+            table_render_id: 'currentTable',
+            edit_url: "{:url('edit')}",
+            delete_url: "{:url('del')}",
+            modify_url: '{:url("multi")}',
+            delivery_url:"{:url('delivery/index')}"
+        };
+
+        yznTable.render({
+            init: init,
+            toolbar: ['refresh',
+            ],
+            url: '{:url("index")}',
+            cols: [
+                [
+                    { field: 'id', width: 80, title: 'ID' },
+                    { field: 'name', align: "left", title: '区域', searchOp: 'like'  },
+                    { field: 'user_num', align: "left", title: '区域用户数'},
+                    { field: 'create_time', width: 180, title: '创建时间', search: 'range' },
+                    { field: 'status', width: 120, align: "center", title: '状态', unresize: true, selectList: {
+                        0: '关闭', 1: '开放' },templet: yznTable.formatter.switch,tips:"开放|关闭" },
+                    { fixed:'right',title: '操作',templet: yznTable.formatter.tool,operat: [
+                            [{
+                                text: '配送点管理',
+                                url: init.delivery_url,
+                                method: 'href',
+                                auth: 'edit',
+                                class: 'layui-btn layui-btn-xs layui-btn-normal',
+                                extend: '',
+                            }],
+                            'edit','delete']}
+                ]
+            ],
+            page: {}
+        });
+    });
+</script>
+{/block}
