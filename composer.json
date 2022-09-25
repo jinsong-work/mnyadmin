@@ -1,6 +1,6 @@
 {
     "name": "jinsong-work/mnyadmin",
-    "description": "梦能圆科技出品，必属精品。",
+    "description": "外包开发必备后台管理系统",
     "type": "project",
     "require": {
         "yzncms/think-installer": "*"
@@ -15,7 +15,7 @@
     },
     "authors": [
         {
-            "name": "mnykj"
+            "name": "金松"
         }
     ],
     "minimum-stability": "stable",
